@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Page Load Time and Server Ping ..</h1>
+        <h1>Page Load Time and Server Ping</h1>
         <div class="info" id="load-time">Page Load Time: Calculating...</div>
         <div class="info" id="ping-time">Ping Time: Calculating...</div>
     </div>
@@ -29,8 +29,9 @@
     <script>
         // Measure page load time
         window.onload = function() {
-            const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-            document.getElementById('load-time').innerText = `Page Load Time: ${loadTime} ms`;
+            const loadTimeMs = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+            const loadTimeSec = (loadTimeMs / 1000).toFixed(3);
+            document.getElementById('load-time').innerText = `Page Load Time: ${loadTimeMs} ms, ${loadTimeSec} sec`;
 
             // Measure ping time
             measurePing();
@@ -42,8 +43,9 @@
             fetch(window.location.href, { method: 'HEAD' })
                 .then(() => {
                     const pingEnd = performance.now();
-                    const pingTime = pingEnd - pingStart;
-                    document.getElementById('ping-time').innerText = `Ping Time: ${pingTime.toFixed(2)} ms`;
+                    const pingTimeMs = pingEnd - pingStart;
+                    const pingTimeSec = (pingTimeMs / 1000).toFixed(3);
+                    document.getElementById('ping-time').innerText = `Ping Time: ${pingTimeMs.toFixed(2)} ms, ${pingTimeSec} sec`;
                 })
                 .catch(error => {
                     document.getElementById('ping-time').innerText = `Ping Time: Error measuring ping time`;
@@ -52,4 +54,4 @@
         }
     </script>
 </body>
-</html
+</html>
