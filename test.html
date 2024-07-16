@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload and Create GIF</title>
+    <title>Image to GIF Converter</title>
+    <script src="gif.js"></script> <!-- Include the GIF.js library -->
 </head>
 <body>
     <input type="file" id="imageInput" multiple>
@@ -21,19 +22,24 @@
                 return;
             }
 
-            // Upload images to the GIF maker tool
-            const formData = new FormData();
+            const gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: 400, // Set the desired GIF width
+                height: 300, // Set the desired GIF height
+            });
+
+            // Add each image to the GIF
             for (const file of files) {
-                formData.append('file', file);
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+                gif.addFrame(img, { delay: 100 }); // Adjust delay as needed
             }
 
-            // Make a POST request to the GIF maker API
-            fetch('https://ezgif.com/maker', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.text())
-            .then(gifUrl => {
+            // Render the GIF
+            gif.on('finished', function(blob) {
+                const gifUrl = URL.createObjectURL(blob);
+
                 // Display the generated GIF
                 const gifImage = document.createElement('img');
                 gifImage.src = gifUrl;
@@ -46,10 +52,9 @@
                 downloadLink.download = 'my_generated_gif.gif';
                 downloadLink.textContent = 'Download GIF';
                 gifContainer.appendChild(downloadLink);
-            })
-            .catch(error => {
-                console.error('Error generating GIF:', error);
             });
+
+            gif.render();
         }
     </script>
 </body>
