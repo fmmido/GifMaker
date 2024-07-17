@@ -10,6 +10,7 @@
     <input type="file" id="imageInput" multiple>
     <button onclick="generateGif()">Generate GIF</button>
     <button onclick="loadRandomImages()">Load Random Images</button>
+    <button onclick="generateGifFromRandom()">Generate GIF from Random Images</button>
     <div id="gifContainer"></div>
 
     <script>
@@ -74,6 +75,55 @@
                 selectedImages.push(img); // Store selected images
                 gifContainer.appendChild(img);
             }
+        }
+
+        function generateGifFromRandom() {
+            // Your logic to generate a GIF from the selectedImages array
+            // (Implement this part)
+            // For example, you can create a GIF by combining the images in selectedImages.
+            // Remember to adjust the delay and other parameters as needed.
+
+        
+    const gifContainer = document.getElementById('gifContainer');
+
+    if (selectedImages.length === 0) {
+        alert('Please select one or more images or load random images.');
+        return;
+    }
+
+    const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: 400, // Set the desired GIF width
+        height: 300, // Set the desired GIF height
+    });
+
+    // Add each selected image to the GIF
+    for (const img of selectedImages) {
+        gif.addFrame(img, { delay: 100 }); // Adjust delay as needed
+    }
+
+    // Render the GIF
+    gif.on('finished', function(blob) {
+        const gifUrl = URL.createObjectURL(blob);
+
+        // Display the generated GIF
+        const gifImage = document.createElement('img');
+        gifImage.src = gifUrl;
+        gifContainer.innerHTML = '';
+        gifContainer.appendChild(gifImage);
+
+        // Add a download link
+        const downloadLink = document.createElement('a');
+        downloadLink.href = gifUrl;
+        downloadLink.download = 'my_generated_gif.gif';
+        downloadLink.textContent = 'Download GIF';
+        gifContainer.appendChild(downloadLink);
+    });
+
+    gif.render();
+
+
         }
     </script>
 </body>
