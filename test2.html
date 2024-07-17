@@ -58,10 +58,20 @@
                 quality: 10
             });
 
+            // Create a canvas with willReadFrequently: true
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d', { willReadFrequently: true });
+            canvas.width = 150; // Adjust canvas size as needed
+            canvas.height = 150;
+
             gifImages.forEach(function(src) {
-                var img = document.createElement('img');
+                var img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw image onto canvas
+                    gif.addFrame(ctx, { copy: true, delay: 100 }); // Add canvas as frame to GIF
+                };
                 img.src = src;
-                gif.addFrame(img, { delay: 100 });
             });
 
             gif.on('finished', function(blob) {
