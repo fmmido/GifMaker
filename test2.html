@@ -1,62 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIF Generator</title>
-    <style>
-        #picture1 {
-            width: 200px;
-            height: 200px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated GIF Generator</title>
+<script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+<style>
+    /* Optional: Add some basic styling for the page */
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+    img {
+        margin: 10px;
+        border: 1px solid #ccc;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+    button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
-    <h1>GIF Generator</h1>
-    
-    <!-- This is the image that we will change. -->
-    <img id="picture1" width="200px" height="200px" src="https://vignette.wikia.nocookie.net/starpolar/images/9/96/Paul_blart.jpg/revision/latest?cb=20150419171412" alt="GIF Frame"/>
-    
-    <button onclick="generateGif()">Generate and Download GIF</button>
+    <!-- Image elements to display the frames -->
+    <div>
+        <img id="picture1" src="images/frame1.jpg" alt="Frame 1">
+        <img id="picture2" src="images/frame2.jpg" alt="Frame 2">
+        <img id="picture3" src="images/frame3.jpg" alt="Frame 3">
+        <img id="picture4" src="images/frame4.jpg" alt="Frame 4">
+        <img id="picture5" src="images/frame5.jpg" alt="Frame 5">
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+    <!-- Button to generate and download GIF -->
+    <button onclick="generateGif()">Generate GIF</button>
+
+    <!-- Script to handle GIF generation -->
     <script>
-        // Set up the array of frames
+        // Set up the array of frames (replace with actual image URLs)
         var gifImages = [
-    "images/frame1.jpg",
-    "images/frame2.jpg",
-    "images/frame3.jpg",
-    "images/frame4.jpg",
-    "images/frame5.jpg"
-];
+            "images/frame1.jpg",
+            "images/frame2.jpg",
+            "images/frame3.jpg",
+            "images/frame4.jpg",
+            "images/frame5.jpg"
+        ];
 
-        var currentFrame = 0; // Call it a frame because we're making a gif and every image (so every array index) will be a frame
-        
-        function changePicture() {
-            document.getElementById("picture1").src = gifImages[currentFrame]; // Get the gif element and set its source to the current frame
-            currentFrame++; // Increase the current frame by 1
-            if (currentFrame >= gifImages.length) { // If we've gone past the end of our array of frames, then:
-                currentFrame = 0; // Reset back to frame 0
-            }
-        }
-
-        setInterval(changePicture, 100); // Change picture every 100 milliseconds
-
+        // Function to generate and download GIF
         function generateGif() {
             var gif = new GIF({
                 workers: 2,
                 quality: 10
             });
 
-            gifImages.forEach(function(url) {
-                var img = new Image();
-                img.src = url;
-                img.onload = function() {
-                    gif.addFrame(img, {delay: 100});
-                    if (gif.frames.length === gifImages.length) {
-                        gif.render();
-                    }
-                };
+            gifImages.forEach(function(src) {
+                var img = document.createElement('img');
+                img.src = src;
+                gif.addFrame(img, { delay: 100 });
             });
 
             gif.on('finished', function(blob) {
@@ -64,8 +69,13 @@
                 var a = document.createElement('a');
                 a.href = url;
                 a.download = 'generated.gif';
+                document.body.appendChild(a);
                 a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             });
+
+            gif.render();
         }
     </script>
 </body>
