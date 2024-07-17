@@ -12,8 +12,8 @@
 <body>
     
     <header class="header">
-        <a href="" target="_blank" class="logo">Gif Maker</a>
-        <nav class="navbar">
+        <a href="#" target="_blank" class="logo" id="logo">Gif Maker</a>
+        <nav class="navbar" id="navbar">
             <a href="#" class="active">Home</a>
             <a href="About.html">About</a>
             <a href="Services.html">Services</a>
@@ -70,6 +70,24 @@
     <!-- Script to handle GIF generation and image handling -->
     <script>
 
+        // when scroll down logo hide
+
+        window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    var logo = document.getElementById("logo");
+    var navbar = document.getElementById("navbar");
+
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        logo.classList.add("hidden");
+        navbar.classList.add("hidden");
+    } else {
+        logo.classList.remove("hidden");
+        navbar.classList.remove("hidden");
+    }
+}
+
+// on click upload add button
 function handleFileButtonClick() {
     var fileInput = document.getElementById('fileInput');
     fileInput.click(); // Trigger the file input click event
