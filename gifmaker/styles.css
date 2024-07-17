@@ -23,12 +23,20 @@ color: #ededed;
     z-index: 100;
 }
 
-.logo {
+.logo,
+.navbar  {
     position: relative;
     font-size: 25px;
     color: #ededed;
     text-decoration: none;
     font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.logo.hidden,
+.navbar.hidden {
+    opacity: 0;
 }
 
 .logo::before {
@@ -42,6 +50,7 @@ color: #ededed;
     animation: showRight 1s ease forwards;
     animation-delay: .4s;
 }
+
 
 .navbar a {
     font-size: 18px;
