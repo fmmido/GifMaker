@@ -13,13 +13,13 @@
     <div id="gifContainer"></div>
 
     <script>
+        const selectedImages = [];
+
         function generateGif() {
-            const input = document.getElementById('imageInput');
             const gifContainer = document.getElementById('gifContainer');
 
-            const files = input.files;
-            if (files.length === 0) {
-                alert('Please select one or more images.');
+            if (selectedImages.length === 0) {
+                alert('Please select one or more images or load random images.');
                 return;
             }
 
@@ -30,10 +30,8 @@
                 height: 300, // Set the desired GIF height
             });
 
-            // Add each image to the GIF
-            for (const file of files) {
-                const img = new Image();
-                img.src = URL.createObjectURL(file);
+            // Add each selected image to the GIF
+            for (const img of selectedImages) {
                 gif.addFrame(img, { delay: 100 }); // Adjust delay as needed
             }
 
@@ -59,6 +57,7 @@
         }
 
         function loadRandomImages() {
+            // Load random images from Lorem Picsum
             const imageUrls = [
                 'https://picsum.photos/200/300',
                 'https://picsum.photos/250/350',
@@ -72,6 +71,7 @@
             for (const imageUrl of imageUrls) {
                 const img = new Image();
                 img.src = imageUrl;
+                selectedImages.push(img); // Store selected images
                 gifContainer.appendChild(img);
             }
         }
