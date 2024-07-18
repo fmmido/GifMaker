@@ -8,6 +8,7 @@
     <script src="gif.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
+
 </head>
 <body>
     
@@ -45,24 +46,25 @@
     <div id="r_choice_1" style="margin:1em 0 0 0;padding:0 0 0 0;border:0px solid #000;">
         <div id="spec_size" class="h6 line_h2 w100">Specify the image size <span class="small_txt mobile_no_752">(px)</span></div>
         <div class="input-group">
-            <input class="form-control" style="border-right:0;" type="number" min="16" max="1000" step="1" id="custom_width" value="400" >
-            <div class="input-group-prepend">
-                <span class="input-group-text">x</span>
-            </div>
-            <input class="form-control" type="number" min="16" max="1000" step="1" id="custom_height" value="300">
-        </div> 
+            <label for="custom_width">Width</label>
+            <input type="number" min="16" max="1000" step="1" id="custom_width" value="400">
+            <span></span>
+            <label for="custom_height" style="margin-left: 60px;">Height</label>
+            <input type="number" min="16" max="1000" step="1" id="custom_height" value="300">
+        <div> </br></div>
+        </div>
     </div> 
 
     <div id="r_choice_line" class="line_sep"></div>
     <div id="r_choice_2" style="margin:0 0 1em 0;padding:0 0 0 0;border:0px solid #000;">
         <div id="spec_delay" class="h6 line_h2 w100">Animation Speed <span class="small_txt mobile_no_752">(faster or slower)</span></div>
         <div class="input-group">
-            <input class="form-control" style="border-right:0;" id="delay_refresh" type="number" min="50" max="10000" step="50" value="500" />
-            <div class="input-group-prepend">
+            <input class="form-control" style="width: 90%;" id="delay_refresh" type="number" min="50" max="10000" step="50" value="500" />
+            
                 <span class="input-group-text">ms</span>
-            </div>
+            
         </div>
-        <input id="delay_refresh_range" class="delay_anim_slider" type="range" min="50" max="10000" step="50" value="500" oninput="document.getElementById('delay_refresh').value = this.value">
+        <input id="delay_refresh_range" style="width: 90%;" class="delay_anim_slider" type="range" min="50" max="10000" step="50" value="500" oninput="document.getElementById('delay_refresh').value = this.value">
     </div>
 
 
@@ -132,6 +134,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
                       };
 
                 reader.readAsDataURL(file);
+                
             }
         }
 
@@ -207,23 +210,19 @@ document.getElementById('fileInput').addEventListener('change', function() {
             
         </div>
        
-        <div class="your-new-div" style="float: right;">
+        </span> 
+         <div class="your-new-div" style="float: right;">
 
-            <h3>Uploaded images</h3>
-            <p></p>
+             <p></p>
             <div id="imagesWrapper"></div>
 
             <div class="img_and_button" id="result_gif_image" style="display:none;">
                 <img alt="Preview" id="gifPreview" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
-                <br />
-                <a class="btn btn-danger generated_dl_bt" href="javascript:void(0);" onclick="downloadGif()">Download GIF</a>
-            </div>
+               
+                </div>
 
         </div>
           
-
-
-        </span>
     </section>
    
     
