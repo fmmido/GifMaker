@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gif Maker</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAAAAD//////////////////////fv4/+/hyv/ewpL/1LBz/9Ovcf/cvoz/7N3C//z59f//////////////////////////////////////9Orb/9Ovcf++iC3/uH0Z/7d7Fv+3exb/uHwY/72FKP/RqWj/8ujW////////////////////////////7uPQ/8WWSP+3exb/vIMk/8ugVv/ZuYP/27yJ/8+nZP++hyr/t3sV/8WTQf/w483/////////////////9e3g/8aXSf+3exj/xphL/+nYvP/8+fX////////////+/Pr/7d7E/8eYSP+3exX/yZxQ//jz6v///////v38/9a1ff+4exf/w5A8//Dkz//////////////////////////////////w483/wYw0/7l9Gv/iyqH///////Ts3f/Cjzr/uX4d/+HLpv////////////////////////7+//37+P/9+/f//Pr2/86nZ/+3ehT/0Khl//78+v/n07H/u4Eg/8GNNv/17eD///////////////////////Ts3v/OpWH/y59V/8ugV/++iTL/t3wX/8aZTv/59vD/4sqi/7l+G//ImUv/+/jy///////////////////////x5dL/vYcr/7h+Hf+4fx//uoIj/7qAIP/Glkf/+PPp/+TPq/+6gB7/x5hJ//v38f//////////////////////+/fy/+vavf/p17j/6Ni8/+nbxP/q2r//7uDI//37+P/o1rf/u4Ii/8CMM//17N3/////////////////////////////////////////////////////////////////9e3f/8ORPP+5fRr/4cec/////////////////////////////////////////////v38///+/v///////////////v/au4b/uHwX/8KPOf/v4sv/////////////////////////////////+/fy/9u8if/r2b3/////////////////9/Dl/8mbT/+3exX/xJI+/+jUs//7+PP////////////+/fz/9Ora/9Otb/+5fRn/x5lL//jz6//////////////////y59T/yJpN/7h7Fv+7giL/ypxR/9azef/ZuYP/0app/8GNNf+3exb/vYYp/+HIn//+/fz///////////////////////bv4//Ytn//wYw0/7l+G/+3exb/t3sW/7h8F/+8gyT/y55U/+rZvP/+/fz//////////////////////////////////v37//Ln1f/iyZ//17V9/9Wxdv/bvYv/6ti6//r27v//////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==" />
 </head>
 <body>
     
@@ -138,109 +138,73 @@
                             workers: 2,
                             quality: 10,
                             width: width,
-                            height: height
+                            height: height,
                         });
 
                         gifImages.forEach(function(img) {
-                            var canvas = document.createElement('canvas');
-                            canvas.width = width;
-                            canvas.height = height;
-                            var ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, width, height);
-                            gif.addFrame(canvas, { delay: delay });
+                            gif.addFrame(img, { delay: delay });
                         });
 
                         gif.on('finished', function(blob) {
-                            gifBlob = blob; // Store the generated GIF blob
-                            var url = URL.createObjectURL(gifBlob);
-
-                            var gifPreview = document.getElementById('gifPreview');
-                            gifPreview.src = url;
-                            gifPreview.parentElement.style.display = 'block'; // Show the GIF preview container
+                            gifBlob = blob;
+                            var gifUrl = URL.createObjectURL(blob);
+                            document.getElementById('gifPreview').src = gifUrl;
+                            document.getElementById('downloadGifButton').style.display = 'inline-block';
                         });
 
                         gif.render();
+                    }).catch(error => {
+                        console.error('Error loading gif.js:', error);
                     });
                 }
 
                 // Function to dynamically load gif.js
                 function loadGifJS() {
                     return new Promise((resolve, reject) => {
-                        var script = document.createElement('script');
-                        script.src = 'gif.js';
-                        script.onload = resolve;
-                        script.onerror = reject;
-                        document.head.appendChild(script);
+                        if (window.GIF) {
+                            resolve(); // gif.js is already loaded
+                        } else {
+                            var script = document.createElement('script');
+                            script.src = 'gif.js'; // Path to gif.js library
+                            script.onload = resolve;
+                            script.onerror = reject;
+                            document.head.appendChild(script);
+                        }
                     });
                 }
 
-                // Function to download the GIF
+                // Function to download the generated GIF
                 function downloadGif() {
                     if (!gifBlob) {
-                        alert('Please generate the GIF first.');
+                        alert('Please generate a GIF first.');
                         return;
                     }
 
-                    var url = URL.createObjectURL(gifBlob);
-                    var a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'generated.gif';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = URL.createObjectURL(gifBlob);
+                    downloadLink.download = 'animated.gif';
+                    downloadLink.click();
                 }
+
             </script>
 
+            <!-- Buttons to trigger GIF generation and download -->
             <div class="btn-box">
-                <button onclick="generateAndPreviewGif()" href="" target="_blank">Generate and Preview GIF</button>
-                <button onclick="downloadGif()" href="javascript:void(0);">Download</button>
+                <button onclick="generateAndPreviewGif()">Generate GIF</button>
+                <button id="downloadGifButton" onclick="downloadGif()" style="display: none;">Download GIF</button>
             </div>
-        </div>
-        
-        <div class="your-new-div" style="float: right;">
-            <p></p>
-            <div id="imagesWrapper"></div>
-            <div class="img_and_button" id="result_gif_image" style="display:none;">
-                <img alt="Preview" id="gifPreview" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+
+            <!-- Container to display selected images -->
+            <div id="imagesWrapper" class="image-container-wrapper"></div>
+
+            <!-- Container to preview the generated GIF -->
+            <div class="gif-preview-container">
+                <h2>GIF Preview</h2>
+                <img id="gifPreview" src="" alt="GIF Preview">
             </div>
+
         </div>
     </section>
-   
-   <!-- measure time load -->
-    <div class="container">
-        <h1>Page Load Time and Server Ping</h1>
-        <div class="info" id="load-time">Page Load Time: Calculating...</div>
-        <div class="info" id="ping-time">Ping Time: Calculating...</div>
-    </div>
-
-    <script>
-        // Measure page load time
-        window.onload = function() {
-            const loadTimeMs = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-            const loadTimeSec = (loadTimeMs / 1000).toFixed(3);
-            document.getElementById('load-time').innerText = `Page Load Time: ${loadTimeMs} ms, ${loadTimeSec} sec`;
-
-            // Measure ping time
-            measurePing();
-        };
-
-        function measurePing() {
-            const pingStart = performance.now();
-
-            fetch(window.location.href, { method: 'HEAD' })
-                .then(() => {
-                    const pingEnd = performance.now();
-                    const pingTimeMs = pingEnd - pingStart;
-                    const pingTimeSec = (pingTimeMs / 1000).toFixed(3);
-                    document.getElementById('ping-time').innerText = `Ping Time: ${pingTimeMs.toFixed(2)} ms, ${pingTimeSec} sec`;
-                })
-                .catch(error => {
-                    document.getElementById('ping-time').innerText = `Ping Time: Error measuring ping time`;
-                    console.error('Error measuring ping time:', error);
-                });
-        }
-    </script>
 
 </body>
 </html>
