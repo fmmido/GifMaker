@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+  <!-- postpone all scripts until click -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gif Maker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAAAAD//////////////////////fv4/+/hyv/ewpL/1LBz/9Ovcf/cvoz/7N3C//z59f//////////////////////////////////////9Orb/9Ovcf++iC3/uH0Z/7d7Fv+3exb/uHwY/72FKP/RqWj/8ujW////////////////////////////7uPQ/8WWSP+3exb/vIMk/8ugVv/ZuYP/27yJ/8+nZP++hyr/t3sV/8WTQf/w483/////////////////9e3g/8aXSf+3exj/xphL/+nYvP/8+fX////////////+/Pr/7d7E/8eYSP+3exX/yZxQ//jz6v///////v38/9a1ff+4exf/w5A8//Dkz//////////////////////////////////w483/wYw0/7l9Gv/iyqH///////Ts3f/Cjzr/uX4d/+HLpv////////////////////////7+//37+P/9+/f//Pr2/86nZ/+3ehT/0Khl//78+v/n07H/u4Eg/8GNNv/17eD///////////////////////Ts3v/OpWH/y59V/8ugV/++iTL/t3wX/8aZTv/59vD/4sqi/7l+G//ImUv/+/jy///////////////////////x5dL/vYcr/7h+Hf+4fx//uoIj/7qAIP/Glkf/+PPp/+TPq/+6gB7/x5hJ//v38f//////////////////////+/fy/+vavf/p17j/6Ni8/+nbxP/q2r//7uDI//37+P/o1rf/u4Ii/8CMM//17N3/////////////////////////////////////////////////////////////////9e3f/8ORPP+5fRr/4cec/////////////////////////////////////////////v38///+/v///////////////v/au4b/uHwX/8KPOf/v4sv/////////////////////////////////+/fy/9u8if/r2b3/////////////////9/Dl/8mbT/+3exX/xJI+/+jUs//7+PP////////////+/fz/9Ora/9Otb/+5fRn/x5lL//jz6//////////////////y59T/yJpN/7h7Fv+7giL/ypxR/9azef/ZuYP/0app/8GNNf+3exb/vYYp/+HIn//+/fz///////////////////////bv4//Ytn//wYw0/7l+G/+3exb/t3sW/7h8F/+8gyT/y55U/+rZvP/+/fz//////////////////////////////////v37//Ln1f/iyZ//17V9/9Wxdv/bvYv/6ti6//r27v//////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==" />
+</head>
+<body>
+    
+    <header class="header">
+        <a href="#" target="_blank" class="logo" id="logo">Gif Maker</a>
+        <nav class="navbar" id="navbar">
+            <a href="#" class="active">Home</a>
+            <a href="About.html">About</a>
+            <a href="Services.html">Services</a>
+            <a href="Portfolio.html">Portfolio</a>
+            <a href="Contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="home-content">
+            <h1>Hi, Gif Maker</h1>
+            <h3>Let's do it</h3>
+            <p>Photo edit tool</p>
+
+            <!-- Input to select multiple images -->
+            <div class="btn-box">
+                <button onclick="handleFileButtonClick()">Add +</button>
+                <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+            </div>
+
+            <!-- Image container to display uploaded images -->
+            <!-- Options for image size and animation speed -->
+            <div id="r_choice_1" style="margin:1em 0 0 0;padding:0 0 0 0;border:0px solid #000;">
+                <div id="spec_size" class="h6 line_h2 w100">Specify the image size <span class="small_txt mobile_no_752">(px)</span></div>
+                <div class="input-group">
+                    <label for="custom_width">Width</label>
+                    <input type="number" min="16" max="1000" step="1" id="custom_width" value="400">
+                    <span></span>
+                    <label for="custom_height" style="margin-left: 60px;">Height</label>
+                    <input type="number" min="16" max="1000" step="1" id="custom_height" value="300">
+                </div>
+            </div>
+
+            <div id="r_choice_line" class="line_sep"></div>
+            <div id="r_choice_2" style="margin:0 0 1em 0;padding:0 0 0 0;border:0px solid #000;">
+                <div id="spec_delay" class="h6 line_h2 w100">Animation Speed <span class="small_txt mobile_no_752">(faster or slower)</span></div>
+                <div class="input-group">
+                    <input class="form-control" style="width: 90%;" id="delay_refresh" type="number" min="50" max="10000" step="50" value="500" />
+                    <span class="input-group-text">ms</span>
+                </div>
+                <input id="delay_refresh_range" style="width: 90%;" class="delay_anim_slider" type="range" min="50" max="10000" step="50" value="500" oninput="document.getElementById('delay_refresh').value = this.value">
+            </div>
+
+            <!-- Script to handle GIF generation and image handling -->
+            <script>
+                function loadScripts() {
+                    // when scroll down logo hide
+                    window.onscroll = function() {scrollFunction()};
+
+                    function scrollFunction() {
+                        var logo = document.getElementById("logo");
+                        var navbar = document.getElementById("navbar");
+
+                        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                            logo.classList.add("hidden");
+                            navbar.classList.add("hidden");
+                        } else {
+                            logo.classList.remove("hidden");
+                            navbar.classList.remove("hidden");
+                        }
+                    }
+
+                    // on click upload add button
+                    function handleFileButtonClick() {
+                        var fileInput = document.getElementById('fileInput');
+                        fileInput.click(); // Trigger the file input click event
+                    }
+
+                    // Function to handle selected files
+                    function handleFiles(files) {
+                        // Handle the selected files here as needed
+                        console.log(files);
+                    }
+
+                    // Event listener for file input change
+                    document.getElementById('fileInput').addEventListener('change', function() {
+                        handleFiles(this.files);
+                    });
+
+                    var gifImages = []; // Array to store image elements
+                    var gifBlob; // Variable to store the generated GIF blob
+
+                    // Function to handle file input and display selected images
+                    function handleFiles(files) {
+                        var imageContainer = document.getElementById('imageContainer');
+                     
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
+                            var reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                var img = document.createElement('img');
+                                img.onload = function() {
+                                    gifImages.push(img); // Store image element in array
+                                };
+                                img.src = e.target.result;
+                                img.className = 'uploaded-image'; // Optional: Add a class for styling
+
+                             // Create a separate container for each image
+                             var imageContainer = document.createElement('div');
+                                imageContainer.className = 'image-container';
+                                imageContainer.appendChild(img);
+
+                                imagesWrapper.appendChild(imageContainer); // Add image container to wrapper
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    }
+
+                    // Function to generate and preview the GIF
+                    function generateAndPreviewGif() {
+                        if (gifImages.length === 0) {
+                            alert('Please upload at least one image.');
+                            return;
+                        }
+
+                        var width = parseInt(document.getElementById('custom_width').value) || 400;
+                        var height = parseInt(document.getElementById('custom_height').value) || 300;
+                        var delay = parseInt(document.getElementById('delay_refresh').value) || 500;
+
+                        // Load gif.js library dynamically
+                        loadGifJS().then(() => {
+                            var gif = new GIF({
+                                workers: 2,
+                                quality: 10,
+                                width: width,
+                                height: height,
+                            });
+
+                            gifImages.forEach(function(img) {
+                                gif.addFrame(img, { delay: delay });
+                            });
+
+                            gif.on('finished', function(blob) {
+                                gifBlob = blob;
+                                var gifUrl = URL.createObjectURL(blob);
+                                document.getElementById('gifPreview').src = gifUrl;
+                                document.getElementById('downloadGifButton').style.display = 'inline-block';
+                            });
+
+                            gif.render();
+                        }).catch(error => {
+                            console.error('Error loading gif.js:', error);
+                        });
+                    }
+
+                    // Function to dynamically load gif.js
+                    function loadGifJS() {
+                        return new Promise((resolve, reject) => {
+                            if (window.GIF) {
+                                resolve(); // gif.js is already loaded
+                            } else {
+                                var script = document.createElement('script');
+                                script.src = 'gif.js'; // Path to gif.js library
+                                script.onload = resolve;
+                                script.onerror = reject;
+                                document.head.appendChild(script);
+                            }
+                        });
+                    }
+
+                    // Function to download the generated GIF
+                    function downloadGif() {
+                        if (!gifBlob) {
+                            alert('Please generate a GIF first.');
+                            return;
+                        }
+
+                        var downloadLink = document.createElement('a');
+                        downloadLink.href = URL.createObjectURL(gifBlob);
+                        downloadLink.download = 'animated.gif';
+                        downloadLink.click();
+                    }
+                }
+
+                // Call loadScripts function on button click
+                function handleFileButtonClick() {
+                    loadScripts();
+                    var fileInput = document.getElementById('fileInput');
+                    fileInput.click(); // Trigger the file input click event
+                }
+            </script>
+
+            <!-- Buttons to trigger GIF generation and download -->
+            <div class="btn-box">
+                <button onclick="generateAndPreviewGif()">Generate GIF</button>
+                <button id="downloadGifButton" onclick="downloadGif()" style="display: none;">Download GIF</button>
+            </div>
+
+            <!-- Container to display selected images -->
+            <div id="imagesWrapper" class="image-container-wrapper"></div>
+
+            <!-- Container to preview the generated GIF -->
+            <div class="gif-preview-container">
+                <h2>GIF Preview</h2>
+                <img id="gifPreview" src="" alt="GIF Preview">
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
