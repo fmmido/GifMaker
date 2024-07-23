@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="styles.css">
     <script src="gif.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .uploaded-image {
+            max-width: 100px;
+            max-height: 100px;
+            margin: 5px;
+        }
+        .image-container {
+            display: inline-block;
+            margin: 5px;
+        }
+    </style>
 </head>
 <body>
     
@@ -56,4 +67,164 @@
                     <input class="form-control" style="width: 90%;" id="delay_refresh" type="number" min="50" max="10000" step="50" value="500" />
                     <span class="input-group-text">ms</span>
                 </div>
-               
+                <input id="delay_refresh_range" style="width: 90%;" class="delay_anim_slider" type="range" min="50" max="10000" step="50" value="500" oninput="document.getElementById('delay_refresh').value = this.value">
+            </div>
+
+            <div class="btn-box">
+                <button onclick="generateAndPreviewGif()">Generate and Preview GIF</button>
+                <button onclick="downloadGif()">Download</button>
+            </div>
+
+            <div id="result_gif_image" style="display:none;">
+                <img alt="Preview" id="gifPreview" src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <h1>Page Load Time and Server Ping</h1>
+        <div class="info" id="load-time">Page Load Time: Calculating...</div>
+        <div class="info" id="ping-time">Ping Time: Calculating...</div>
+    </div>
+
+    <script>
+        // When scroll down, hide logo and navbar
+        window.onscroll = function() {scrollFunction()};
+        function scrollFunction() {
+            var logo = document.getElementById("logo");
+            var navbar = document.getElementById("navbar");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                logo.classList.add("hidden");
+                navbar.classList.add("hidden");
+            } else {
+                logo.classList.remove("hidden");
+                navbar.classList.remove("hidden");
+            }
+        }
+
+        // Handle file input button click
+        function handleFileButtonClick() {
+            var fileInput = document.getElementById('fileInput');
+            fileInput.click(); // Trigger the file input click event
+        }
+
+        // Function to handle selected files
+        function handleFiles(files) {
+            var imagesWrapper = document.getElementById('imagesWrapper');
+            imagesWrapper.innerHTML = ''; // Clear existing images
+
+            gifImages = []; // Reset the gifImages array
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var img = document.createElement('img');
+                    img.onload = function() {
+                        gifImages.push(img); // Store image element in array
+                    };
+                    img.src = e.target.result;
+                    img.className = 'uploaded-image'; // Optional: Add a class for styling
+
+                    // Create a separate container for each image
+                    var imageContainer = document.createElement('div');
+                    imageContainer.className = 'image-container';
+                    imageContainer.appendChild(img);
+
+                    imagesWrapper.appendChild(imageContainer); // Add image container to wrapper
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Event listener for file input change
+        document.getElementById('fileInput').addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        var gifImages = []; // Array to store image elements
+        var gifBlob; // Variable to store the generated GIF blob
+
+        // Function to generate and preview the GIF
+        function generateAndPreviewGif() {
+            if (gifImages.length === 0) {
+                alert('Please upload at least one image.');
+                return;
+            }
+
+            var width = parseInt(document.getElementById('custom_width').value, 10);
+            var height = parseInt(document.getElementById('custom_height').value, 10);
+            var delay = parseInt(document.getElementById('delay_refresh').value, 10);
+
+            var gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: width,
+                height: height
+            });
+
+            gifImages.forEach(function(img) {
+                var canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                gif.addFrame(canvas, { delay: delay });
+            });
+
+            gif.on('finished', function(blob) {
+                gifBlob = blob; // Store the generated GIF blob
+                var url = URL.createObjectURL(gifBlob);
+
+                var gifPreview = document.getElementById('gifPreview');
+                gifPreview.src = url;
+                gifPreview.parentElement.style.display = 'block'; // Show the GIF preview container
+            });
+
+            gif.render();
+        }
+
+        // Function to download the GIF
+        function downloadGif() {
+            if (!gifBlob) {
+                alert('Please generate the GIF first.');
+                return;
+            }
+
+            var url = URL.createObjectURL(gifBlob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'generated.gif';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Measure page load time
+        window.onload = function() {
+            const loadTimeMs = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+            const loadTimeSec = (loadTimeMs / 1000).toFixed(3);
+            document.getElementById('load-time').innerText = `Page Load Time: ${loadTimeMs} ms, ${loadTimeSec} sec`;
+
+            // Measure ping time
+            measurePing();
+        };
+
+        function measurePing() {
+            const pingStart = performance.now();
+
+            fetch(window.location.href, { method: 'HEAD' })
+                .then(() => {
+                    const pingEnd = performance.now();
+                    const pingTimeMs = pingEnd - pingStart;
+                    const pingTimeSec = (pingTimeMs / 1000).toFixed(3);
+                    document.getElementById('ping-time').innerText = `Ping Time: ${pingTimeMs} ms, ${pingTimeSec} sec`;
+                });
+        }
+    </script>
+
+</body>
+</html>
