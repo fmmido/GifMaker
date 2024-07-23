@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gif Maker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="gif.js"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    
+    <header class="header">
+        <a href="#" target="_blank" class="logo" id="logo">Gif Maker</a>
+        <nav class="navbar" id="navbar">
+            <a href="#" class="active">Home</a>
+            <a href="About.html">About</a>
+            <a href="Services.html">Services</a>
+            <a href="Portfolio.html">Portfolio</a>
+            <a href="Contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="home-content">
+            <h1>Hi, Gif Maker</h1>
+            <h3>Let's do it</h3>
+            <p>Photo edit tool</p>
+
+            <!-- Input to select multiple images -->
+            <div class="btn-box">
+                <button onclick="handleFileButtonClick()">Add +</button>
+                <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+            </div>
+
+            <!-- Container to preview uploaded images -->
+            <div id="imagesWrapper" class="image-preview-container"></div>
+
+            <!-- Options for image size and animation speed -->
+            <div id="r_choice_1" style="margin:1em 0 0 0;padding:0 0 0 0;border:0px solid #000;">
+                <div id="spec_size" class="h6 line_h2 w100">Specify the image size <span class="small_txt mobile_no_752">(px)</span></div>
+                <div class="input-group">
+                    <label for="custom_width">Width</label>
+                    <input type="number" min="16" max="1000" step="1" id="custom_width" value="400">
+                    <span></span>
+                    <label for="custom_height" style="margin-left: 60px;">Height</label>
+                    <input type="number" min="16" max="1000" step="1" id="custom_height" value="300">
+                    <div></br></div>
+                </div>
+            </div> 
+
+            <div id="r_choice_line" class="line_sep"></div>
+            <div id="r_choice_2" style="margin:0 0 1em 0;padding:0 0 0 0;border:0px solid #000;">
+                <div id="spec_delay" class="h6 line_h2 w100">Animation Speed <span class="small_txt mobile_no_752">(faster or slower)</span></div>
+                <div class="input-group">
+                    <input class="form-control" style="width: 90%;" id="delay_refresh" type="number" min="50" max="10000" step="50" value="500" />
+                    <span class="input-group-text">ms</span>
+                </div>
+               
