@@ -21,4 +21,4 @@ Welcome to GIFMakes, a tool for creating animated GIFs from images or videos. Th
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/gifmakes.git
+   git clone https://https://github.com/fmmido/GifMaker.git
