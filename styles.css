@@ -1,0 +1,379 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #081b29; 
+color: #ededed;
+}
+
+body, h1, h2, p, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+
+.logo,
+.navbar, 
+.footer  {
+    position: relative;
+    font-size: 25px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.home-content h3 {
+    position: relative;
+    font-size: 32px;
+    font-weight: 700;
+    color: #00abf0;
+}
+.left-column h2 {
+    position: relative;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+}
+.home-content  {
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.home-content .btn-box {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 325px;
+    height: 50px;
+  }
+
+
+
+.btn-box button {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100%;
+    background: #00abf0;
+    border: 2px solid #00abf0;
+    border-radius: 8px;
+    font-size: 19px;
+    color: #081b29;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    z-index: 1;
+    overflow: hidden;
+    transition: .5s;
+}
+
+.btn-box button:hover {
+    color: #00abf0;
+}
+
+
+.btn-box button:nth-child(2) {
+    background: transparent;
+    color: #00abf0;
+}
+
+.btn-box button:nth-child(2):hover {
+    background: #081b29;
+    color: #081b29;
+}
+
+.btn-box button:nth-child(2)::before{
+    background: #00abf0;
+}
+ 
+.btn-box button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #081b29;
+    z-index: -1;
+    transition: .5s;
+}
+
+.btn-box button:hover:before {
+    width: 100%;
+}
+
+
+@keyframes showRight {
+    100%{
+        width: 0;
+    }
+}
+
+
+
+.navbar a, 
+.footer a {
+    font-size: 18px;
+    color: #ededed;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 1px; 
+    margin-left: 35px;
+    transition: .3s;
+}
+
+.footer a {
+    margin-left: 2px;
+}
+
+
+.navbar a:hover, 
+.navbar a.active,
+.footer a:hover, 
+.footer a.active {
+    color: #00abf0;
+}
+
+.footer {
+    display: grid;        
+    grid-template-rows: auto auto; 
+    justify-items: center; 
+    justify-content: center; 
+    align-items: center;     
+    height: 220px;           
+    background-color: #000000; 
+   
+}
+
+
+.footer p {
+    font-size: 16px; 
+    margin-top: 10px;
+    margin-bottom: 15px;
+    }
+
+.header {
+    padding: 1px 15px;
+    background: transparent;
+    display: flex;
+    color: #fff;
+
+    text-align: center;
+
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+}
+
+
+
+.logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+/* Grid container styles */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+
+
+.left-content {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+  
+    
+}
+
+/* Right column styles */
+.right-column {
+    background-color: #e2e2e2;
+    padding: 1rem;
+    width: 100%; /* Full width */
+}
+
+.right-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .right-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* styles5.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+.upload-container {
+    position: relative;
+    width: 100%; /* Full width */
+    max-width: 600px; /* Maximum width */
+    height: 180px; /* Fixed height */
+    border: 2px solid #00abf0; /* Border color */
+    overflow: hidden; /* Hides any overflow content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    box-sizing: border-box;
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    display: flex; /* Displays images in a row */
+    flex-wrap: nowrap; /* Prevents wrapping to the next line */
+    align-items: center;
+    overflow-x: auto; /* Allows horizontal scrolling */
+    overflow-y: hidden; /* Hides vertical scrollbar */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* WebKit-based browsers (Chrome, Safari) scrollbar styling */
+.image-container::-webkit-scrollbar {
+    height: 12px; /* Height of horizontal scrollbar */
+}
+
+.image-container::-webkit-scrollbar-thumb {
+    background-color: #00abf0; /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners for the scrollbar thumb */
+}
+
+.image-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Background color of the track */
+}
+
+/* Wrapper around each image and delete button */
+.image-wrapper {
+    position: relative; /* Allows positioning of the delete button */
+    display: inline-block;
+    margin: 5px;
+}
+
+/* General styles for images */
+.uploaded-image {
+    width: 150px; /* Fixed width for images */
+    height: auto; /* Adjusts height to maintain aspect ratio */
+    object-fit: cover; /* Fills the container while maintaining aspect ratio */
+}
+
+/* Delete button styles */
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: red; /* Red background color */
+    color: white; /* White "X" */
+    border: none;
+    border-radius: 50%; /* Circular button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 10; /* Ensure it appears above the image */
+}
+
+.delete-btn:hover {
+    background-color: darkred; /* Darker red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .upload-container {
+        height: 150px; /* Reduce height for smaller screens */
+    }
+
+    .uploaded-image {
+        width: 110px; /* Reduce image width for smaller screens */
+    }
+}
+
+
+@media (max-width: 480px) {
+    .upload-container {
+        height: 120px; /* Further reduce height for very small screens */
+    }
+
+    .uploaded-image {
+        width: 100px; /* Further reduce image width for very small screens */
+    }
+}
+
+.home-text {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-text h3 {
+    margin-bottom: 10px;
+}
+
+.home-text ol, .home-text ul {
+    margin-left: 20px;
+}
+
+.home-text li {
+    margin-bottom: 10px;
+}
